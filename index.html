@@ -37,27 +37,27 @@
             </div>
 
             <div class="welcome-meta">
-              <span>3 واجبات قريبة</span>
-              <span>امتحان اليوم</span>
+              <span id="welcomeText">3 واجبات قريبة</span>
+              <span id="welcomeExam">امتحان اليوم</span>
             </div>
           </div>
 
           <div class="stats-grid">
             <div class="stat-card">
               <span>المواد</span>
-              <strong>6</strong>
+              <strong id="statSubjects">0</strong>
             </div>
             <div class="stat-card">
               <span>مكتمل</span>
-              <strong>12</strong>
+              <strong id="statCompleted">0</strong>
             </div>
             <div class="stat-card">
               <span>قيد الإنجاز</span>
-              <strong>5</strong>
+              <strong id="statProgress">0</strong>
             </div>
             <div class="stat-card">
               <span>قريب</span>
-              <strong>4</strong>
+              <strong id="statUpcoming">0</strong>
             </div>
           </div>
 
@@ -66,35 +66,7 @@
               <h3>جدول الدروس</h3>
               <span>هذا الأسبوع</span>
             </div>
-
-            <div class="schedule-table">
-              <div class="schedule-row header-row">
-                <span>اليوم</span>
-                <span>الوقت</span>
-                <span>المادة</span>
-              </div>
-
-              <div class="schedule-row">
-                <span>الاثنين</span>
-                <span>08:30</span>
-                <span>الرياضيات</span>
-              </div>
-              <div class="schedule-row">
-                <span>الثلاثاء</span>
-                <span>10:00</span>
-                <span>العلوم</span>
-              </div>
-              <div class="schedule-row">
-                <span>الأربعاء</span>
-                <span>09:15</span>
-                <span>اللغة الإنجليزية</span>
-              </div>
-              <div class="schedule-row">
-                <span>الخميس</span>
-                <span>11:00</span>
-                <span>الفلسفة</span>
-              </div>
-            </div>
+            <div id="scheduleList" class="schedule-table"></div>
           </div>
         </section>
 
@@ -104,39 +76,13 @@
               <h3>قريبًا</h3>
               <span>تنبيهات</span>
             </div>
-
-            <div class="alert-list">
-              <div class="alert-item danger">
-                <div class="dot danger"></div>
-                <div>
-                  <strong>واجب فيزياء</strong>
-                  <small>يُسلم غدًا 08:00</small>
-                </div>
-              </div>
-
-              <div class="alert-item warning">
-                <div class="dot warning"></div>
-                <div>
-                  <strong>امتحان رياضيات</strong>
-                  <small>بعد 3 ساعات</small>
-                </div>
-              </div>
-
-              <div class="alert-item success">
-                <div class="dot success"></div>
-                <div>
-                  <strong>واجب عربي</strong>
-                  <small>تمت إكماله</small>
-                </div>
-              </div>
-            </div>
+            <div id="upcomingList" class="alert-list"></div>
           </div>
 
           <div class="panel">
             <div class="panel-header">
               <h3>المواد</h3>
             </div>
-
             <div id="subjectList" class="subject-mini-list"></div>
           </div>
         </aside>
@@ -152,10 +98,9 @@
           <div class="subject-meta">
             <div class="attendance-box">
               <span class="attendance-label">الحضور</span>
-              <strong id="attendanceValue">18 / 24</strong>
+              <strong id="attendanceValue">0</strong>
             </div>
-
-            <button class="primary-btn small" id="addTaskBtn">إضافة</button>
+            <button class="primary-btn small" id="openItemModal">إضافة</button>
           </div>
         </div>
 
@@ -165,65 +110,28 @@
           <button class="tab" data-tab="exams">الامتحانات</button>
         </div>
 
-        <div class="tab-content active" id="assignments">
+        <div class="tab-content active" id="assignmentsTab">
           <div class="list-header">
             <h3>الواجبات</h3>
-            <button class="ghost-btn">إضافة واجب</button>
+            <button class="ghost-btn" data-item-type="assignment">إضافة واجب</button>
           </div>
-
-          <div class="task-list">
-            <div class="task-item">
-              <div class="task-copy">
-                <h4>حل صفحة 44</h4>
-                <small>يُسلم: 27/10/2026</small>
-              </div>
-              <span class="status in-progress">قيد الإنجاز</span>
-            </div>
-
-            <div class="task-item">
-              <div class="task-copy">
-                <h4>اختبار سريع</h4>
-                <small>يُسلم: 30/10/2026</small>
-              </div>
-              <span class="status done">مكتمل</span>
-            </div>
-          </div>
+          <div id="assignmentsList" class="task-list"></div>
         </div>
 
-        <div class="tab-content" id="lessons">
+        <div class="tab-content" id="lessonsTab">
           <div class="list-header">
             <h3>الدروس</h3>
-            <button class="ghost-btn">تسجيل درس</button>
+            <button class="ghost-btn" data-item-type="lesson">تسجيل درس</button>
           </div>
-
-          <div class="lesson-list">
-            <div class="entry-card">
-              <h4>درس: الجبر</h4>
-              <p>تم شرح المعادلات الخطية، ومراجعة التمارين الأساسية.</p>
-            </div>
-
-            <div class="entry-card">
-              <h4>درس: الهندسة</h4>
-              <p>حل بعض الأسئلة المتعلقة بالمثلثات والزوايا.</p>
-            </div>
-          </div>
+          <div id="lessonsList" class="lesson-list"></div>
         </div>
 
-        <div class="tab-content" id="exams">
+        <div class="tab-content" id="examsTab">
           <div class="list-header">
             <h3>الامتحانات</h3>
-            <button class="ghost-btn">إضافة امتحان</button>
+            <button class="ghost-btn" data-item-type="exam">إضافة امتحان</button>
           </div>
-
-          <div class="exam-list">
-            <div class="task-item">
-              <div class="task-copy">
-                <h4>اختبار منتصف الفصل</h4>
-                <small>التاريخ: 02/11/2026 | 10:00</small>
-              </div>
-              <span class="status reminder">تذكير</span>
-            </div>
-          </div>
+          <div id="examsList" class="exam-list"></div>
         </div>
       </section>
     </div>
@@ -231,11 +139,13 @@
     <div class="modal hidden" id="subjectModal">
       <div class="modal-card">
         <div class="modal-header">
-          <h3>إضافة مادة</h3>
-          <button class="close-btn" id="closeAddSubject" aria-label="إغلاق">×</button>
+          <h3 id="subjectModalTitle">إضافة مادة</h3>
+          <button class="close-btn" id="closeSubjectModal" aria-label="إغلاق">×</button>
         </div>
 
         <form id="subjectForm">
+          <input type="hidden" id="subjectId" />
+
           <label>
             اسم المادة
             <input type="text" id="subjectName" placeholder="مثال: العلوم" required />
@@ -257,7 +167,35 @@
             <input type="time" id="subjectTime" value="08:30" />
           </label>
 
-          <button class="primary-btn full" type="submit">حفظ المادة</button>
+          <label>
+            الحضور الحالي
+            <input type="number" id="subjectAttendance" min="0" value="0" />
+          </label>
+
+          <label>
+            العدد الكلي
+            <input type="number" id="subjectTotal" min="1" value="20" />
+          </label>
+
+          <button class="primary-btn full" type="submit">حفظ</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="modal hidden" id="itemModal">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3 id="itemModalTitle">إضافة</h3>
+          <button class="close-btn" id="closeItemModal" aria-label="إغلاق">×</button>
+        </div>
+
+        <form id="itemForm">
+          <input type="hidden" id="itemType" />
+          <input type="hidden" id="itemId" />
+
+          <div id="itemFields"></div>
+
+          <button class="primary-btn full" type="submit">حفظ</button>
         </form>
       </div>
     </div>
@@ -265,35 +203,6 @@
     <script src="script.js"></script>
   </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

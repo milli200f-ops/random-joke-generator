@@ -38,13 +38,19 @@ body {
 
 button,
 input,
-select {
+select,
+textarea {
   font: inherit;
 }
 
 button {
   border: none;
   cursor: pointer;
+}
+
+textarea {
+  min-height: 100px;
+  resize: vertical;
 }
 
 .app-shell {
@@ -514,6 +520,28 @@ button {
   color: #5b21b6;
 }
 
+.item-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.action-btn {
+  padding: 8px 10px;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.action-btn.edit {
+  background: #e0f2fe;
+  color: #075985;
+}
+
+.action-btn.delete {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
 .modal {
   position: fixed;
   inset: 0;
@@ -557,13 +585,15 @@ button {
   color: var(--text);
 }
 
-#subjectForm {
+#subjectForm,
+#itemForm {
   display: flex;
   flex-direction: column;
   gap: 14px;
 }
 
-#subjectForm label {
+#subjectForm label,
+#itemForm label {
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -571,7 +601,10 @@ button {
 }
 
 #subjectForm input,
-#subjectForm select {
+#subjectForm select,
+#itemForm input,
+#itemForm select,
+#itemForm textarea {
   border: 1px solid var(--line);
   border-radius: 12px;
   padding: 12px 14px;
