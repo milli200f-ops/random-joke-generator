@@ -3,10 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>دراسي</title>
+    <title>UniFlow</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%230e1d3a' d='M10 23 L32 12 L54 23 L32 34 Z'/%3E%3Cpath fill='white' d='M15 25.5 V38 C15 42 21 46 32 46 C43 46 49 42 49 38 V25.5 L32 33 Z'/%3E%3Crect x='24' y='34' width='16' height='7' rx='2' fill='white'/%3E%3Cpath fill='white' d='M16 41 H48 V44 C48 47 45 50 41 50 H23 C19 50 16 47 16 44 Z'/%3E%3C/svg%3E" />
     <style>
       :root {
         --bg: #f4f7fb;
@@ -44,8 +45,11 @@
         display: flex; align-items: center; gap: 14px;
       }
       .brand-mark {
-        width: 56px; height: 56px; border-radius: 16px; background: linear-gradient(135deg, #1f3f9d, #4d8af0);
-        display: grid; place-items: center; color: white; font-weight: 800; font-size: 1.8rem;
+        width: 56px; height: 56px; border-radius: 18px; background: linear-gradient(135deg, #0e1d3a, #11315e);
+        display: grid; place-items: center; box-shadow: 0 14px 28px rgba(17, 49, 94, 0.25); overflow: hidden;
+      }
+      .brand-mark svg {
+        width: 34px; height: 34px; display: block;
       }
       .brand-subtitle { font-size: 0.75rem; color: var(--muted); }
       .brand h1 { margin: 0; font-size: 2rem; }
@@ -180,10 +184,17 @@
     <div class="app-shell">
       <header class="topbar">
         <div class="brand">
-          <div class="brand-mark">د</div>
+          <div class="brand-mark" aria-label="UniFlow logo">
+            <svg viewBox="0 0 64 64" aria-hidden="true">
+              <path d="M10 23 L32 12 L54 23 L32 34 Z" fill="white" opacity="0.95"/>
+              <path d="M15 25.5 V38 C15 42 21 46 32 46 C43 46 49 42 49 38 V25.5 L32 33 Z" fill="white" opacity="0.9"/>
+              <rect x="24" y="34" width="16" height="7" rx="2" fill="white" opacity="0.95"/>
+              <path d="M16 41 H48 V44 C48 47 45 50 41 50 H23 C19 50 16 47 16 44 Z" fill="white" opacity="0.95"/>
+            </svg>
+          </div>
           <div class="brand-text">
-            <span class="brand-subtitle">منصة التعليم</span>
-            <h1>دراسي</h1>
+            <span class="brand-subtitle">Smart Study Platform</span>
+            <h1>UniFlow</h1>
           </div>
         </div>
 
