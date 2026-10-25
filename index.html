@@ -7,7 +7,174 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css" />
+    <style>
+      :root {
+        --bg: #f4f7fb;
+        --panel: #ffffff;
+        --soft: #f8fafc;
+        --primary: #2f6fed;
+        --primary-dark: #1d4ed8;
+        --primary-soft: #eaf1ff;
+        --text: #1d2633;
+        --muted: #667085;
+        --line: #e6ebf2;
+        --shadow: 0 18px 38px rgba(22, 31, 58, 0.08);
+        --danger: #ef4444;
+        --warning: #f59e0b;
+        --success: #22c55e;
+      }
+
+      * { box-sizing: border-box; }
+      html, body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Cairo", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+      }
+      body { padding: 24px; }
+      button, input, select, textarea { font: inherit; }
+      button { border: none; cursor: pointer; }
+
+      .app-shell { max-width: 1280px; margin: 0 auto; }
+      .topbar {
+        display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;
+      }
+      .brand {
+        display: flex; align-items: center; gap: 14px;
+      }
+      .brand-mark {
+        width: 56px; height: 56px; border-radius: 16px; background: linear-gradient(135deg, #1f3f9d, #4d8af0);
+        display: grid; place-items: center; color: white; font-weight: 800; font-size: 1.8rem;
+      }
+      .brand-subtitle { font-size: 0.75rem; color: var(--muted); }
+      .brand h1 { margin: 0; font-size: 2rem; }
+      .topbar-actions { display: flex; gap: 12px; align-items: center; }
+      .primary-btn {
+        background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white;
+        border-radius: 12px; padding: 12px 18px; font-weight: 700;
+        box-shadow: 0 10px 26px rgba(47,111,237,0.25); border: none;
+      }
+      .icon-btn, .action-btn, .close-btn, .ghost-btn { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; }
+      .icon-btn { width: 42px; height: 42px; }
+
+      .main-layout { display: grid; grid-template-columns: 1.5fr 0.8fr; gap: 24px; }
+      .panel, .welcome-card, .subject-panel {
+        background: var(--panel); border-radius: 22px; box-shadow: var(--shadow); border: 1px solid rgba(15,23,42,0.04);
+      }
+      .welcome-card {
+        padding: 26px 28px; display: flex; justify-content: space-between; align-items: center;
+        background: linear-gradient(135deg, #edf4ff, #eef2ff);
+      }
+      .eyebrow { margin: 0 0 8px; color: var(--muted); font-size: 0.76rem; }
+      .welcome-card h2 { margin: 0; font-size: clamp(1.6rem, 2.3vw, 2.2rem); }
+      .welcome-meta { display: flex; flex-direction: column; gap: 8px; font-weight: 700; color: var(--primary-dark); }
+
+      .stats-grid {
+        display: grid; grid-template-columns: repeat(4, minmax(110px, 1fr)); gap: 16px; margin-top: 22px;
+      }
+      .stat-card {
+        background: var(--panel); border-radius: 18px; padding: 18px 20px; border: 1px solid var(--line);
+      }
+      .stat-card span { display: block; color: var(--muted); font-size: 0.86rem; }
+      .stat-card strong { display: block; margin-top: 10px; font-size: 2rem; }
+
+      .panel { padding: 20px 22px; }
+      .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+      .panel-header h3 { margin: 0; font-size: 1.3rem; }
+      .schedule-table { display: flex; flex-direction: column; gap: 10px; }
+      .schedule-row {
+        display: grid; grid-template-columns: 1fr 1fr 1.5fr; gap: 12px; background: var(--soft);
+        border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px;
+      }
+      .header-row { background: var(--primary-soft); font-weight: 700; }
+
+      .alert-list { display: flex; flex-direction: column; gap: 12px; }
+      .alert-item {
+        display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 14px;
+        background: var(--soft); border: 1px solid var(--line);
+      }
+      .dot { width: 12px; height: 12px; border-radius: 50%; }
+      .dot.success { background: var(--success); }
+      .dot.warning { background: var(--warning); }
+      .dot.danger { background: var(--danger); }
+
+      .subject-mini-list { display: flex; flex-direction: column; gap: 12px; }
+      .subject-chip {
+        display: flex; align-items: center; justify-content: space-between; border: 1px solid var(--line);
+        background: var(--soft); border-radius: 14px; padding: 12px 14px; width: 100%;
+      }
+      .meta-side { display: flex; align-items: center; gap: 10px; }
+      .color-badge { width: 12px; height: 12px; border-radius: 50%; }
+      .subject-count {
+        background: #eaf1ff; color: var(--primary-dark); font-size: 0.75rem; padding: 5px 8px; border-radius: 999px; font-weight: 700;
+      }
+
+      .subject-panel { margin-top: 26px; padding: 24px; }
+      .subject-header { display: flex; justify-content: space-between; align-items: center; gap: 20px; margin-bottom: 18px; }
+      .subject-header h2 { margin: 0; font-size: 2.1rem; }
+      .subject-meta { display: flex; align-items: center; gap: 12px; }
+      .attendance-box {
+        background: linear-gradient(135deg, #ecfdf5, #d1fae5); border: 1px solid #bbf7d0;
+        border-radius: 14px; padding: 10px 14px; min-width: 130px; text-align: center;
+      }
+      .attendance-label { display: block; font-size: 0.72rem; color: var(--muted); }
+      .attendance-box strong { color: #166534; font-size: 1.1rem; }
+
+      .tabs { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 18px; }
+      .tab {
+        background: #edf2ff; color: var(--primary-dark); padding: 10px 16px; border-radius: 10px; font-weight: 700;
+      }
+      .tab.active { background: var(--primary); color: white; }
+      .tab-content { display: none; }
+      .tab-content.active { display: block; }
+
+      .list-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+      .ghost-btn { background: var(--soft); border: 1px solid var(--line); padding: 10px 14px; border-radius: 10px; font-weight: 600; }
+
+      .task-list, .lesson-list, .exam-list { display: flex; flex-direction: column; gap: 12px; }
+      .task-item, .entry-card {
+        display: flex; justify-content: space-between; align-items: center; gap: 12px; background: #fafbfc; border: 1px solid var(--line);
+        border-radius: 14px; padding: 16px 18px;
+      }
+      .task-copy h4, .entry-card h4 { margin: 0 0 6px; }
+      .task-copy small, .entry-card p { margin: 0; color: var(--muted); }
+      .item-actions { display: flex; gap: 8px; align-items: center; }
+      .status {
+        display: inline-block; padding: 8px 10px; border-radius: 999px; font-size: 0.76rem; font-weight: 700;
+      }
+      .status.in-progress { background: #fef3c7; color: #b45309; }
+      .status.done { background: #dcfce7; color: #166534; }
+      .status.reminder { background: #ede9fe; color: #5b21b6; }
+      .action-btn { padding: 8px 10px; font-weight: 700; }
+      .action-btn.edit { background: #dbeafe; color: #1d4ed8; }
+      .action-btn.delete { background: #fee2e2; color: #b91c1c; }
+
+      .modal { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.38); display: grid; place-items: center; z-index: 20; }
+      .hidden { display: none !important; }
+      .modal-card { width: min(88vw, 480px); background: white; border-radius: 18px; padding: 22px; box-shadow: 0 25px 50px rgba(15, 23, 42, 0.18); }
+      .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+      .close-btn { width: 34px; height: 34px; }
+      form { display: flex; flex-direction: column; gap: 14px; }
+      label { display: flex; flex-direction: column; gap: 8px; font-weight: 600; }
+      input, select, textarea { background: white; border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+      textarea { min-height: 100px; resize: vertical; }
+      .full { width: 100%; }
+      .empty-state { color: var(--muted); font-size: 0.9rem; }
+      .toolbar { display: flex; gap: 12px; align-items: center; margin-top: 10px; }
+      .reset-btn { background: #fee2e2; color: #991b1b; padding: 10px 14px; border-radius: 10px; font-weight: 700; }
+
+      @media (max-width: 900px) {
+        .main-layout { grid-template-columns: 1fr; }
+        .stats-grid { grid-template-columns: repeat(2, minmax(110px, 1fr)); }
+      }
+      @media (max-width: 560px) {
+        .topbar, .subject-header, .list-header { flex-direction: column; align-items: flex-start; }
+        .welcome-card { flex-direction: column; align-items: flex-start; }
+        .stats-grid { grid-template-columns: 1fr; }
+        .task-item, .entry-card { flex-direction: column; align-items: flex-start; }
+      }
+    </style>
   </head>
   <body>
     <div class="app-shell">
@@ -21,9 +188,7 @@
         </div>
 
         <div class="topbar-actions">
-          <button class="icon-btn" aria-label="الإشعارات">
-            <span class="icon-bell"></span>
-          </button>
+          <button class="icon-btn" aria-label="الإشعارات">🔔</button>
           <button class="primary-btn" id="openAddSubject">إضافة مادة</button>
         </div>
       </header>
@@ -35,7 +200,6 @@
               <p class="eyebrow">مرحبًا بك</p>
               <h2>إدارة دروسك بوضوح وسهولة</h2>
             </div>
-
             <div class="welcome-meta">
               <span id="welcomeText">3 واجبات قريبة</span>
               <span id="welcomeExam">امتحان اليوم</span>
@@ -43,22 +207,10 @@
           </div>
 
           <div class="stats-grid">
-            <div class="stat-card">
-              <span>المواد</span>
-              <strong id="statSubjects">0</strong>
-            </div>
-            <div class="stat-card">
-              <span>مكتمل</span>
-              <strong id="statCompleted">0</strong>
-            </div>
-            <div class="stat-card">
-              <span>قيد الإنجاز</span>
-              <strong id="statProgress">0</strong>
-            </div>
-            <div class="stat-card">
-              <span>قريب</span>
-              <strong id="statUpcoming">0</strong>
-            </div>
+            <div class="stat-card"><span>المواد</span><strong id="statSubjects">0</strong></div>
+            <div class="stat-card"><span>مكتمل</span><strong id="statCompleted">0</strong></div>
+            <div class="stat-card"><span>قيد الإنجاز</span><strong id="statProgress">0</strong></div>
+            <div class="stat-card"><span>قريب</span><strong id="statUpcoming">0</strong></div>
           </div>
 
           <div class="panel">
@@ -84,13 +236,16 @@
               <h3>المواد</h3>
             </div>
             <div id="subjectList" class="subject-mini-list"></div>
+            <div class="toolbar">
+              <button class="reset-btn" id="resetData">إعادة تعيين</button>
+            </div>
           </div>
         </aside>
       </main>
 
       <section class="subject-panel">
         <div class="subject-header">
-          <div class="subject-header-main">
+          <div>
             <p class="eyebrow">المادة المختارة</p>
             <h2 id="subjectTitle">الرياضيات</h2>
           </div>
@@ -100,7 +255,7 @@
               <span class="attendance-label">الحضور</span>
               <strong id="attendanceValue">0</strong>
             </div>
-            <button class="primary-btn small" id="openItemModal">إضافة</button>
+            <button class="primary-btn" id="openItemModal">إضافة</button>
           </div>
         </div>
 
@@ -136,21 +291,19 @@
       </section>
     </div>
 
-    <div class="modal hidden" id="subjectModal">
+    <div id="subjectModal" class="modal hidden">
       <div class="modal-card">
         <div class="modal-header">
           <h3 id="subjectModalTitle">إضافة مادة</h3>
-          <button class="close-btn" id="closeSubjectModal" aria-label="إغلاق">×</button>
+          <button id="closeSubjectModal" class="close-btn" aria-label="إغلاق">×</button>
         </div>
 
         <form id="subjectForm">
           <input type="hidden" id="subjectId" />
-
           <label>
             اسم المادة
             <input type="text" id="subjectName" placeholder="مثال: العلوم" required />
           </label>
-
           <label>
             اليوم
             <select id="subjectDay">
@@ -161,59 +314,616 @@
               <option>الجمعة</option>
             </select>
           </label>
-
           <label>
             الوقت
             <input type="time" id="subjectTime" value="08:30" />
           </label>
-
           <label>
             الحضور الحالي
             <input type="number" id="subjectAttendance" min="0" value="0" />
           </label>
-
           <label>
             العدد الكلي
             <input type="number" id="subjectTotal" min="1" value="20" />
           </label>
-
-          <button class="primary-btn full" type="submit">حفظ</button>
+          <button type="submit" class="primary-btn full">حفظ</button>
         </form>
       </div>
     </div>
 
-    <div class="modal hidden" id="itemModal">
+    <div id="itemModal" class="modal hidden">
       <div class="modal-card">
         <div class="modal-header">
           <h3 id="itemModalTitle">إضافة</h3>
-          <button class="close-btn" id="closeItemModal" aria-label="إغلاق">×</button>
+          <button id="closeItemModal" class="close-btn" aria-label="إغلاق">×</button>
         </div>
 
         <form id="itemForm">
           <input type="hidden" id="itemType" />
           <input type="hidden" id="itemId" />
-
           <div id="itemFields"></div>
-
-          <button class="primary-btn full" type="submit">حفظ</button>
+          <button type="submit" class="primary-btn full">حفظ</button>
         </form>
       </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+      const STORAGE_KEY = "darsi-app-v2";
+      const defaultData = { selectedSubjectId: null, subjects: [], assignments: [], lessons: [], exams: [] };
+      let state = loadData();
+
+      const tabs = document.querySelectorAll(".tab");
+      const tabContents = document.querySelectorAll(".tab-content");
+
+      function loadData() {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return JSON.parse(JSON.stringify(defaultData));
+        try {
+          const parsed = JSON.parse(raw);
+          return {
+            selectedSubjectId: parsed.selectedSubjectId || null,
+            subjects: parsed.subjects || [],
+            assignments: parsed.assignments || [],
+            lessons: parsed.lessons || [],
+            exams: parsed.exams || []
+          };
+        } catch {
+          return JSON.parse(JSON.stringify(defaultData));
+        }
+      }
+
+      function saveData() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      }
+
+      function ensureSelectedSubject() {
+        if (!state.subjects.length) {
+          state.selectedSubjectId = null;
+          return null;
+        }
+        if (!state.selectedSubjectId || !state.subjects.some((s) => s.id === state.selectedSubjectId)) {
+          state.selectedSubjectId = state.subjects[0].id;
+        }
+        return state.selectedSubjectId;
+      }
+
+      function getSelectedSubject() {
+        const id = ensureSelectedSubject();
+        return state.subjects.find((s) => s.id === id) || null;
+      }
+
+      function getSubjectById(id) {
+        return state.subjects.find((s) => s.id === id) || null;
+      }
+
+      function formatAttendance(subject) {
+        return `${subject.attendance || 0} / ${subject.total || 0}`;
+      }
+
+      function renderStats() {
+        const subjectsCount = state.subjects.length;
+        const completed = state.assignments.filter((a) => a.status === "مكتمل").length;
+        const inProgress = state.assignments.filter((a) => a.status === "قيد الإنجاز").length;
+        const upcoming = state.assignments.filter((a) => a.status !== "مكتمل").length;
+
+        document.getElementById("statSubjects").textContent = subjectsCount;
+        document.getElementById("statCompleted").textContent = completed;
+        document.getElementById("statProgress").textContent = inProgress;
+        document.getElementById("statUpcoming").textContent = upcoming;
+
+        document.getElementById("welcomeText").textContent = `${upcoming} واجبات قريبة`;
+        document.getElementById("welcomeExam").textContent = state.exams.length ? `لديك ${state.exams.length} امتحان قادم` : "لا يوجد امتحان قريب";
+      }
+
+      function renderSubjectList() {
+        const subjectListEl = document.getElementById("subjectList");
+        subjectListEl.innerHTML = "";
+
+        if (!state.subjects.length) {
+          subjectListEl.innerHTML = "<p class='empty-state'>لا توجد مواد حتى الآن</p>";
+          return;
+        }
+
+        state.subjects.forEach((subject) => {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "subject-chip";
+          btn.innerHTML = `
+            <div class="meta-side">
+              <span class="color-badge" style="background:${subject.color};"></span>
+              <span>${subject.name}</span>
+            </div>
+            <span class="subject-count">${formatAttendance(subject)}</span>
+          `;
+          btn.addEventListener("click", () => {
+            state.selectedSubjectId = subject.id;
+            saveData();
+            renderAll();
+          });
+          subjectListEl.appendChild(btn);
+        });
+      }
+
+      function renderSchedule() {
+        const scheduleList = document.getElementById("scheduleList");
+        scheduleList.innerHTML = "";
+
+        const header = document.createElement("div");
+        header.className = "schedule-row header-row";
+        header.innerHTML = "<span>اليوم</span><span>الوقت</span><span>المادة</span>";
+        scheduleList.appendChild(header);
+
+        if (!state.subjects.length) {
+          const empty = document.createElement("div");
+          empty.className = "schedule-row";
+          empty.innerHTML = "<span>—</span><span>—</span><span>لا توجد مواد</span>";
+          scheduleList.appendChild(empty);
+          return;
+        }
+
+        state.subjects.forEach((subject) => {
+          const row = document.createElement("div");
+          row.className = "schedule-row";
+          row.innerHTML = `<span>${subject.day}</span><span>${subject.time}</span><span>${subject.name}</span>`;
+          scheduleList.appendChild(row);
+        });
+      }
+
+      function renderUpcoming() {
+        const upcomingList = document.getElementById("upcomingList");
+        upcomingList.innerHTML = "";
+
+        const items = [];
+
+        state.assignments.forEach((item) => {
+          if (item.status !== "مكتمل") {
+            const subject = getSubjectById(item.subjectId);
+            items.push({ title: `${subject ? subject.name : "مادة"} - ${item.title}`, text: `يُسلم ${item.dueDate} ${item.dueTime}`, kind: "warning" });
+          }
+        });
+
+        state.exams.forEach((item) => {
+          const subject = getSubjectById(item.subjectId);
+          items.push({ title: `${subject ? subject.name : "مادة"} - ${item.title}`, text: `${item.date} | ${item.time}`, kind: "danger" });
+        });
+
+        if (!items.length) {
+          upcomingList.innerHTML = '<div class="alert-item"><div class="dot success"></div><div><strong>لا توجد تنبيهات</strong><small>كل شيء على ما يرام</small></div></div>';
+          return;
+        }
+
+        items.slice(0, 4).forEach((item) => {
+          const box = document.createElement("div");
+          box.className = "alert-item";
+          box.innerHTML = `
+            <div class="dot ${item.kind === "danger" ? "danger" : "warning"}"></div>
+            <div>
+              <strong>${item.title}</strong>
+              <small>${item.text}</small>
+            </div>
+          `;
+          upcomingList.appendChild(box);
+        });
+      }
+
+      function renderSelectedSubject() {
+        const subject = getSelectedSubject();
+        const titleEl = document.getElementById("subjectTitle");
+        const attendanceEl = document.getElementById("attendanceValue");
+
+        if (!subject) {
+          titleEl.textContent = "لا توجد مواد";
+          attendanceEl.textContent = "0 / 0";
+          return;
+        }
+
+        titleEl.textContent = subject.name;
+        attendanceEl.textContent = formatAttendance(subject);
+      }
+
+      function renderAssignments() {
+        const list = document.getElementById("assignmentsList");
+        list.innerHTML = "";
+        const subject = getSelectedSubject();
+        if (!subject) {
+          list.innerHTML = "<p class='empty-state'>لا توجد مواد</p>";
+          return;
+        }
+
+        const items = state.assignments.filter((item) => item.subjectId === subject.id);
+        if (!items.length) {
+          list.innerHTML = "<p class='empty-state'>لا توجد واجبات</p>";
+          return;
+        }
+
+        items.forEach((item) => {
+          const row = document.createElement("div");
+          row.className = "task-item";
+          row.innerHTML = `
+            <div class="task-copy">
+              <h4>${item.title}</h4>
+              <small>يُسلم: ${item.dueDate} | ${item.dueTime}</small>
+            </div>
+            <div class="item-actions">
+              <span class="status ${item.status === "مكتمل" ? "done" : "in-progress"}">${item.status}</span>
+              <button class="action-btn edit" data-action="edit-assignment" data-id="${item.id}">تعديل</button>
+              <button class="action-btn delete" data-action="delete-assignment" data-id="${item.id}">حذف</button>
+            </div>
+          `;
+          list.appendChild(row);
+        });
+      }
+
+      function renderLessons() {
+        const list = document.getElementById("lessonsList");
+        list.innerHTML = "";
+        const subject = getSelectedSubject();
+        if (!subject) {
+          list.innerHTML = "<p class='empty-state'>لا توجد مواد</p>";
+          return;
+        }
+
+        const items = state.lessons.filter((item) => item.subjectId === subject.id);
+        if (!items.length) {
+          list.innerHTML = "<p class='empty-state'>لا توجد دروس مسجلة</p>";
+          return;
+        }
+
+        items.forEach((item) => {
+          const row = document.createElement("div");
+          row.className = "entry-card";
+          row.innerHTML = `
+            <div>
+              <h4>${item.title}</h4>
+              <p>${item.notes}</p>
+              <small>${item.date}</small>
+            </div>
+            <div class="item-actions">
+              <button class="action-btn edit" data-action="edit-lesson" data-id="${item.id}">تعديل</button>
+              <button class="action-btn delete" data-action="delete-lesson" data-id="${item.id}">حذف</button>
+            </div>
+          `;
+          list.appendChild(row);
+        });
+      }
+
+      function renderExams() {
+        const list = document.getElementById("examsList");
+        list.innerHTML = "";
+        const subject = getSelectedSubject();
+        if (!subject) {
+          list.innerHTML = "<p class='empty-state'>لا توجد مواد</p>";
+          return;
+        }
+
+        const items = state.exams.filter((item) => item.subjectId === subject.id);
+        if (!items.length) {
+          list.innerHTML = "<p class='empty-state'>لا توجد امتحانات</p>";
+          return;
+        }
+
+        items.forEach((item) => {
+          const row = document.createElement("div");
+          row.className = "task-item";
+          row.innerHTML = `
+            <div class="task-copy">
+              <h4>${item.title}</h4>
+              <small>التاريخ: ${item.date} | ${item.time}</small>
+            </div>
+            <div class="item-actions">
+              <span class="status reminder">${item.reminder}</span>
+              <button class="action-btn edit" data-action="edit-exam" data-id="${item.id}">تعديل</button>
+              <button class="action-btn delete" data-action="delete-exam" data-id="${item.id}">حذف</button>
+            </div>
+          `;
+          list.appendChild(row);
+        });
+      }
+
+      function bindItemActions() {
+        document.querySelectorAll("[data-action='edit-assignment']").forEach((button) => {
+          button.addEventListener("click", () => {
+            const item = state.assignments.find((x) => x.id === button.dataset.id);
+            if (item) openItemModal("assignment", item);
+          });
+        });
+
+        document.querySelectorAll("[data-action='delete-assignment']").forEach((button) => {
+          button.addEventListener("click", () => deleteItem("assignment", button.dataset.id));
+        });
+
+        document.querySelectorAll("[data-action='edit-lesson']").forEach((button) => {
+          button.addEventListener("click", () => {
+            const item = state.lessons.find((x) => x.id === button.dataset.id);
+            if (item) openItemModal("lesson", item);
+          });
+        });
+
+        document.querySelectorAll("[data-action='delete-lesson']").forEach((button) => {
+          button.addEventListener("click", () => deleteItem("lesson", button.dataset.id));
+        });
+
+        document.querySelectorAll("[data-action='edit-exam']").forEach((button) => {
+          button.addEventListener("click", () => {
+            const item = state.exams.find((x) => x.id === button.dataset.id);
+            if (item) openItemModal("exam", item);
+          });
+        });
+
+        document.querySelectorAll("[data-action='delete-exam']").forEach((button) => {
+          button.addEventListener("click", () => deleteItem("exam", button.dataset.id));
+        });
+      }
+
+      function renderAll() {
+        ensureSelectedSubject();
+        renderStats();
+        renderSubjectList();
+        renderSelectedSubject();
+        renderSchedule();
+        renderUpcoming();
+        renderAssignments();
+        renderLessons();
+        renderExams();
+        bindItemActions();
+      }
+
+      function openSubjectModal(subject = null) {
+        const modal = document.getElementById("subjectModal");
+        modal.classList.remove("hidden");
+        const form = document.getElementById("subjectForm");
+        form.reset();
+
+        if (subject) {
+          document.getElementById("subjectModalTitle").textContent = "تعديل مادة";
+          document.getElementById("subjectId").value = subject.id;
+          document.getElementById("subjectName").value = subject.name;
+          document.getElementById("subjectDay").value = subject.day;
+          document.getElementById("subjectTime").value = subject.time;
+          document.getElementById("subjectAttendance").value = subject.attendance || 0;
+          document.getElementById("subjectTotal").value = subject.total || 20;
+        } else {
+          document.getElementById("subjectModalTitle").textContent = "إضافة مادة";
+          document.getElementById("subjectId").value = "";
+          document.getElementById("subjectAttendance").value = 0;
+          document.getElementById("subjectTotal").value = 20;
+          document.getElementById("subjectDay").value = "الاثنين";
+        }
+      }
+
+      function closeSubjectModal() {
+        document.getElementById("subjectModal").classList.add("hidden");
+      }
+
+      function openItemModal(type, item = null) {
+        const modal = document.getElementById("itemModal");
+        modal.classList.remove("hidden");
+        document.getElementById("itemType").value = type;
+        document.getElementById("itemId").value = item ? item.id : "";
+
+        if (type === "assignment") {
+          document.getElementById("itemModalTitle").textContent = item ? "تعديل واجب" : "إضافة واجب";
+          document.getElementById("itemFields").innerHTML = `
+            <label>اسم الواجب<input type="text" name="title" value="${item ? item.title : ""}" required /></label>
+            <label>تاريخ التسليم<input type="date" name="dueDate" value="${item ? item.dueDate : ""}" required /></label>
+            <label>وقت التسليم<input type="time" name="dueTime" value="${item ? item.dueTime : "08:00"}" required /></label>
+            <label>
+              الحالة
+              <select name="status">
+                <option value="قيد الإنجاز" ${item && item.status === "قيد الإنجاز" ? "selected" : ""}>قيد الإنجاز</option>
+                <option value="مكتمل" ${item && item.status === "مكتمل" ? "selected" : ""}>مكتمل</option>
+              </select>
+            </label>
+          `;
+        }
+
+        if (type === "lesson") {
+          document.getElementById("itemModalTitle").textContent = item ? "تعديل درس" : "تسجيل درس";
+          document.getElementById("itemFields").innerHTML = `
+            <label>عنوان الدرس<input type="text" name="title" value="${item ? item.title : ""}" required /></label>
+            <label>التاريخ<input type="date" name="date" value="${item ? item.date : new Date().toISOString().slice(0,10)}" required /></label>
+            <label>ملاحظاتك<textarea name="notes">${item ? item.notes : ""}</textarea></label>
+          `;
+        }
+
+        if (type === "exam") {
+          document.getElementById("itemModalTitle").textContent = item ? "تعديل امتحان" : "إضافة امتحان";
+          document.getElementById("itemFields").innerHTML = `
+            <label>اسم الامتحان<input type="text" name="title" value="${item ? item.title : ""}" required /></label>
+            <label>التاريخ<input type="date" name="date" value="${item ? item.date : ""}" required /></label>
+            <label>الوقت<input type="time" name="time" value="${item ? item.time : "10:00"}" required /></label>
+            <label>
+              تذكير قبل الموعد
+              <select name="reminder">
+                <option value="30 دقيقة" ${item && item.reminder === "30 دقيقة" ? "selected" : ""}>30 دقيقة</option>
+                <option value="3 ساعات" ${item && item.reminder === "3 ساعات" ? "selected" : ""}>3 ساعات</option>
+                <option value="يوم واحد" ${item && item.reminder === "يوم واحد" ? "selected" : ""}>يوم واحد</option>
+              </select>
+            </label>
+          `;
+        }
+      }
+
+      function closeItemModal() {
+        document.getElementById("itemModal").classList.add("hidden");
+      }
+
+      function deleteSubject(subjectId) {
+        const ok = window.confirm("هل تريد حذف هذه المادة؟");
+        if (!ok) return;
+
+        state.subjects = state.subjects.filter((s) => s.id !== subjectId);
+        state.assignments = state.assignments.filter((a) => a.subjectId !== subjectId);
+        state.lessons = state.lessons.filter((l) => l.subjectId !== subjectId);
+        state.exams = state.exams.filter((e) => e.subjectId !== subjectId);
+
+        if (!state.subjects.length) {
+          state.selectedSubjectId = null;
+        } else {
+          state.selectedSubjectId = state.subjects[0].id;
+        }
+
+        saveData();
+        renderAll();
+      }
+
+      function deleteItem(type, id) {
+        const ok = window.confirm("هل تريد حذف هذا العنصر؟");
+        if (!ok) return;
+
+        if (type === "assignment") state.assignments = state.assignments.filter((x) => x.id !== id);
+        if (type === "lesson") state.lessons = state.lessons.filter((x) => x.id !== id);
+        if (type === "exam") state.exams = state.exams.filter((x) => x.id !== id);
+
+        saveData();
+        renderAll();
+      }
+
+      document.getElementById("openAddSubject").addEventListener("click", () => openSubjectModal());
+      document.getElementById("closeSubjectModal").addEventListener("click", closeSubjectModal);
+      document.getElementById("closeItemModal").addEventListener("click", closeItemModal);
+      document.getElementById("openItemModal").addEventListener("click", () => openItemModal("assignment"));
+
+      document.getElementById("subjectForm").addEventListener("submit", (event) => {
+        event.preventDefault();
+        const id = document.getElementById("subjectId").value;
+        const name = document.getElementById("subjectName").value.trim();
+        const day = document.getElementById("subjectDay").value;
+        const time = document.getElementById("subjectTime").value;
+        const attendance = Number(document.getElementById("subjectAttendance").value || 0);
+        const total = Number(document.getElementById("subjectTotal").value || 20);
+
+        if (!name) return;
+
+        if (id) {
+          const subject = state.subjects.find((s) => s.id === id);
+          if (subject) {
+            subject.name = name;
+            subject.day = day;
+            subject.time = time;
+            subject.attendance = attendance;
+            subject.total = total;
+          }
+        } else {
+          const colors = ["#60a5fa", "#34d399", "#fbbf24", "#a78bfa", "#f472b6"];
+          const newSubject = {
+            id: `sub-${Date.now()}`,
+            name,
+            day,
+            time,
+            attendance,
+            total,
+            color: colors[state.subjects.length % colors.length]
+          };
+          state.subjects.push(newSubject);
+          state.selectedSubjectId = newSubject.id;
+        }
+
+        saveData();
+        closeSubjectModal();
+        renderAll();
+      });
+
+      document.getElementById("itemForm").addEventListener("submit", (event) => {
+        event.preventDefault();
+        const subject = getSelectedSubject();
+        if (!subject) return;
+
+        const type = document.getElementById("itemType").value;
+        const itemId = document.getElementById("itemId").value;
+        const formData = new FormData(document.getElementById("itemForm"));
+        const values = Object.fromEntries(formData.entries());
+
+        if (type === "assignment") {
+          if (itemId) {
+            const item = state.assignments.find((x) => x.id === itemId);
+            if (item) {
+              item.title = values.title;
+              item.dueDate = values.dueDate;
+              item.dueTime = values.dueTime;
+              item.status = values.status;
+            }
+          } else {
+            state.assignments.push({
+              id: `a-${Date.now()}`,
+              subjectId: subject.id,
+              title: values.title,
+              dueDate: values.dueDate,
+              dueTime: values.dueTime,
+              status: values.status
+            });
+          }
+        }
+
+        if (type === "lesson") {
+          if (itemId) {
+            const item = state.lessons.find((x) => x.id === itemId);
+            if (item) {
+              item.title = values.title;
+              item.date = values.date;
+              item.notes = values.notes;
+            }
+          } else {
+            state.lessons.push({
+              id: `l-${Date.now()}`,
+              subjectId: subject.id,
+              title: values.title,
+              date: values.date,
+              notes: values.notes || ""
+            });
+          }
+        }
+
+        if (type === "exam") {
+          if (itemId) {
+            const item = state.exams.find((x) => x.id === itemId);
+            if (item) {
+              item.title = values.title;
+              item.date = values.date;
+              item.time = values.time;
+              item.reminder = values.reminder;
+            }
+          } else {
+            state.exams.push({
+              id: `e-${Date.now()}`,
+              subjectId: subject.id,
+              title: values.title,
+              date: values.date,
+              time: values.time,
+              reminder: values.reminder
+            });
+          }
+        }
+
+        saveData();
+        closeItemModal();
+        renderAll();
+      });
+
+      document.querySelectorAll(".ghost-btn").forEach((button) => {
+        button.addEventListener("click", () => openItemModal(button.dataset.itemType));
+      });
+
+      document.getElementById("resetData").addEventListener("click", () => {
+        const ok = window.confirm("هل تريد حذف جميع البيانات وإعادة التطبيق إلى البداية؟");
+        if (!ok) return;
+        localStorage.removeItem(STORAGE_KEY);
+        state = JSON.parse(JSON.stringify(defaultData));
+        saveData();
+        renderAll();
+      });
+
+      document.querySelectorAll(".tab").forEach((tab) => {
+        tab.addEventListener("click", () => {
+          const target = tab.dataset.tab;
+          document.querySelectorAll(".tab").forEach((btn) => btn.classList.toggle("active", btn === tab));
+          document.querySelectorAll(".tab-content").forEach((content) => {
+            content.classList.toggle("active", content.id === `${target}Tab`);
+          });
+        });
+      });
+
+      renderAll();
+    </script>
   </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
